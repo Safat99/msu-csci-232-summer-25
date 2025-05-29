@@ -1,4 +1,3 @@
-
 import java.util.LinkedList;
 
 public class ShoppingCartLinkedList {
@@ -26,25 +25,17 @@ public class ShoppingCartLinkedList {
     }
 
     public void searchForItem(String name) {
-        boolean found = false;
         for(Item i: cart) {
-            if (i.getName().contains(name)) {
+            if (name.equals(i.getName())) {
                 System.out.println(i.getName() + " " + i.getPrice() + " " + i.getQuantity());
-                found = true;
+                return;
             }
         }
-        if (!found) {
-            System.out.println(name + " is not in the shopping cart.");
-        }
+        System.out.println(name + " is not in the shopping cart.\n");
     }
 
-
     public void removeItem(String name) {
-        for (int i = 0; i < cart.size(); i++) {
-            if (cart.get(i).getName().equals(name)) {
-                cart.remove(i);
-            }
-        }
+        cart.removeIf(item -> item.getName().equals(name));
     }
 
 

@@ -1,4 +1,3 @@
-
 public class ShoppingCartArray {
 
     private Item[] cart;
@@ -28,35 +27,34 @@ public class ShoppingCartArray {
         System.out.println("Shopping Cart");
         System.out.println("---------------------");
         for(Item i: cart) {
-            System.out.println(i.getName() + " " + i.getPrice() + " " + i.getQuantity());
+            if (i != null) {
+                System.out.println(i.getName() + " " + i.getPrice() + " " + i.getQuantity());
+            }
         }
     }
 
     public void searchForItem(String name) {
-        boolean found = false;
-        for(Item i: cart) {
-            if (i.getName().contains(name)) {
-                System.out.println(i.getName() + " " + i.getPrice() + " " + i.getQuantity());
-                found = true;
+        for (int i=0; i<this.num_of_items; i++) {
+            if (name.equals(cart[i].getName())) {
+                System.out.println(cart[i].getName() + " " + cart[i].getPrice() + " " + cart[i].getQuantity());
+                return;
             }
         }
-        if (!found) {
-            System.out.println(name + " is not in the shopping cart.");
-        }
+        System.out.printf("%s is not in the shopping cart.\n", name);
+
     }
 
     public void removeItem(String name) {
-        Item[] tempArray = new Item[cart.length-1];
-        int index = 0;
-
-        for(int i = 0; i < cart.length; i++) {
-            if (!cart[i].getName().equals(name)) {
-                tempArray[index] = cart[i];
-                index++;
+        for (int i=0; i<num_of_items; i++) {
+            if (name.equals(cart[i].getName())) {
+                for (int j=i; j<cart.length-1; j++) {
+                    cart[j] = cart[j+1];
+                }
+                cart[cart.length-1] = null;
+                num_of_items--;
+                return;
             }
         }
-        cart = tempArray;
-        num_of_items--;
     }
 
 }
