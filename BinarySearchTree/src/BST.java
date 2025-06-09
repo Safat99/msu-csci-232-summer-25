@@ -1,6 +1,10 @@
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 public class BST {
 
     private Node root;
+    private int count = 0;
 
     public BST() {
         this.root = null;
@@ -61,32 +65,67 @@ public class BST {
     //These are the four methods you need to write for lab 4. You are welcome to make additional changes to the BST class.
 
     public void inOrder(Node n) {
-        //TO DO: Lab 3
-
+        //TODO: Lab 3
+        if (n != null) {
+            inOrder(n.getLeft());
+            count++;
+            System.out.println(count + ". " + n.getValue());
+            inOrder(n.getRight());
+        }
     }
 
     public void breadthFirst() {
-        //TO DO: Lab 3
+        //TODO: Lab 3
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.add(root);
+        count = 0;
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+            count++;
+            System.out.println(count + ". " + current.getValue() + " ");
+
+            if (current.getLeft() != null) queue.add(current.getLeft());
+            if (current.getRight() != null) queue.add(current.getRight());
+        }
 
     }
 
 
     public int getMin() {
-        //TO DO: Lab 3
+        //TODO: Lab 3
+        if (root == null) return -1;
 
-        return -1;
+        Node current = root;
+        while (current.getLeft() != null) {
+            current = current.getLeft();
+        }
+        return current.getValue();
     }
 
     public int getMax() {
-        //TO DO: Lab 3
+        //TODO: Lab 3
+        if (root == null) return -1;
 
-        return -1;
+        Node current = root;
+        while (current.getRight() != null) {
+            current = current.getRight();
+        }
+        return current.getValue();
     }
 
     public Node find(int value) {
-        //TO DO: Lab 3
-
-
+        //TODO: Lab 3
+        Node current = root;
+        while(current != null) {
+            if (value == current.getValue()) {
+                System.out.println("Found!");
+                return current;
+            } else if (value < current.getValue()) {
+                current = current.getLeft();
+            } else current = current.getRight();
+        }
+        System.out.println("Not found");
         return null;
     }
 
