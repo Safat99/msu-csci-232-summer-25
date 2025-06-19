@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class AnimalTree {
 
@@ -86,14 +84,23 @@ public class AnimalTree {
 
     public void identify(Scanner scanner) {
         Node current = root;
+        List<String> trackPath = new ArrayList<String>();
 
-        while (current.getLeft() != null || current.getRight() != null) {
+        if (root == null) {
+            System.out.println("Tree is empty!! Nothing to Identify..");
+            return;
+        }
+
+
+        while (current.getLeft() != null && current.getRight() != null) {
             System.out.println("Is this animal " + current.getText() + "? (Y/N) > ");
             String answer = scanner.nextLine().trim().toLowerCase();
 
             if (answer.equals("y")) {
+                trackPath.add(current.getText());
                 current = current.getLeft();
             } else {
+                trackPath.add("not " + current.getText());
                 current = current.getRight();
             }
         }
@@ -104,10 +111,35 @@ public class AnimalTree {
 
         if (finalAnswer.equals("y")) {
             System.out.println("Good! All done");
+        } else {
+            //we need to add a newAnimal with new Trait
+
+            String oldAnimal = current.getText();
+
+            System.out.println("I was wrong...");
+            System.out.print("I don't know any animals that are");
+            trackPath.forEach(traits -> System.out.printf(" %s", traits));
+            System.out.println();
+
+            System.out.println("What is the new animal? >");
+            String newAnimal = scanner.nextLine().trim();
+            System.out.printf("What characteristic does %s have that %s does not? > ", newAnimal, oldAnimal);
+            String newTrait = scanner.nextLine().trim();
+
+            current.setText(newTrait);
+
+            Node leftChild = new Node(-1); // temp id
+            leftChild.setText(newAnimal);
+            leftChild.setParent(current);
+            current.setLeft(leftChild);
+
+            Node rightChild = new Node(-2); // temp id
+            rightChild.setParent(current);
+            rightChild.setText(oldAnimal);
+            current.setRight(rightChild);
+
         }
     }
-
-
 
 
 
